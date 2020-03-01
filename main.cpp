@@ -13,7 +13,7 @@ string add(string a, string b, int & flags);
 int main() {
     int num = 0;
     
-    cout << add("1111", "1111", num);
+    cout << add("1001", "1011", num) << endl;
 }
 
 string add(string a, string b, int & flags) {
@@ -27,6 +27,7 @@ string add(string a, string b, int & flags) {
     int val = 0;
     string total = "0000";
     int totalNum = 0;
+    string flagNum;
     
     // check for carry over
     for (int x = 3; x >= 0; x--) {
@@ -47,7 +48,6 @@ string add(string a, string b, int & flags) {
         } else {
             C = 0;
         }
-        
     }
     
     // Get signed nums
@@ -67,8 +67,10 @@ string add(string a, string b, int & flags) {
         val++;
     }
     
+    // Checking for negative
     if (total[0] == '1') {
         totalNum = totalNum - pow(2, 3);
+        N = 1;
     }
     
     if (a[0] == '1') {
@@ -85,24 +87,35 @@ string add(string a, string b, int & flags) {
     } else {
         V = 1;
     }
-
-    cout << "Total: " << total << endl;
-
-    if (C == 1) {
-        cout << "Carry over = 1" << endl;
+    
+    if (total == "0000") {
+        Z = 1;
     }
 
+//    cout << "Total: " << total << endl;
     
-
-    cout << signedNumA << endl;
-    cout << signedNumB << endl;
-    cout << totalNum << endl;
-    cout << total << endl;
+    flagNum = to_string(N) + to_string(Z) + to_string(V) + to_string(C);
+    val = 0;
+    for (int x = 3; x >= 1; x--) {
+        if (flagNum[x] == '1') {
+            flags += static_cast<int>(pow(2, val));
+        }
+        
+        val++;
+    }
     
-   
+    if (flagNum[0] == '1') {
+        flags = flags - pow(2, 3);
+    }
     
+//    cout << "FLAG: " << flags << endl;
+//    cout << "FLAG NUM: " << flagNum << endl;
+//    cout << signedNumA << endl;
+//    cout << signedNumB << endl;
+//    cout << totalNum << endl;
+//    cout << "total: ";
     
-    return to_string(V) + to_string(C);
+    return to_string(flags);
 }
 
 /*
